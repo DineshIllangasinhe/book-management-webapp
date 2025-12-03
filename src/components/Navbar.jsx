@@ -1,12 +1,10 @@
 import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-function Navbar({ onNavigate, onLogout, isLoggedIn, currentPage }) {
+function Navbar({ onLogout, isLoggedIn }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const handleNavigate = (page) => {
-    onNavigate(page);
-    setIsMobileMenuOpen(false);
-  };
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     onLogout();
@@ -60,26 +58,28 @@ function Navbar({ onNavigate, onLogout, isLoggedIn, currentPage }) {
         <nav className="flex-1 p-4 flex flex-col overflow-y-auto">
           {!isLoggedIn && (
             <div className="flex flex-col gap-2">
-              <button
-                onClick={() => handleNavigate("login")}
+              <Link
+                to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                  currentPage === "login"
+                  location.pathname === "/login"
                     ? "bg-slate-900 text-white font-medium"
                     : "border border-slate-300 hover:bg-slate-50"
                 }`}
               >
                 Login
-              </button>
-              <button
-                onClick={() => handleNavigate("register")}
+              </Link>
+              <Link
+                to="/register"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                  currentPage === "register"
+                  location.pathname === "/register"
                     ? "bg-slate-900 text-white font-medium"
                     : "border border-slate-300 hover:bg-slate-50"
                 }`}
               >
                 Register
-              </button>
+              </Link>
             </div>
           )}
 
@@ -90,10 +90,11 @@ function Navbar({ onNavigate, onLogout, isLoggedIn, currentPage }) {
                   Navigation
                 </h2>
                 <div className="flex flex-col gap-2">
-                  <button
-                    onClick={() => handleNavigate("books")}
+                  <Link
+                    to="/books"
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
-                      currentPage === "books"
+                      location.pathname === "/books"
                         ? "bg-slate-900 text-white font-medium shadow-md"
                         : "border border-slate-300 hover:bg-slate-50 hover:border-slate-400"
                     }`}
@@ -114,8 +115,35 @@ function Navbar({ onNavigate, onLogout, isLoggedIn, currentPage }) {
                       </svg>
                       Books
                     </span>
-                  </button>
+                  </Link>
+                  <Link
+                    to="/user-details"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
+                      location.pathname === "/user-details"
+                        ? "bg-slate-900 text-white font-medium shadow-md"
+                        : "border border-slate-300 hover:bg-slate-50 hover:border-slate-400"
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
+                      </svg>
+                      User Details
+                    </span>
+                  </Link>
                 </div>
+                
               </div>
               <div className="mt-auto pt-4 border-t border-slate-200">
                 <button
